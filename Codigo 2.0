@@ -106,7 +106,18 @@ while pregunta4.upper() == 'S':
             print('...Encargado no existe...')
             encargado_mascota = int(input('Ingrese codigo encargado: '))
 
-    listaMascota.append(Mascota(nombre_mascota,codigo_mascota,especie_mascota,raza_mascota,encargado_mascota))
+        #***********************encontrar index*********************************
+    listaCodigosEncargado = []
+
+    for x in listaEncargado:
+        listaCodigosEncargado.append( x.codigo_cliente)
+
+    print(listaCodigosEncargado)
+
+    index = listaCodigosEncargado.index(encargado_mascota)
+    #********************************************************
+    listaMascota.append(Mascota(nombre_mascota,codigo_mascota,especie_mascota,raza_mascota,[listaEncargado[index].nombre,listaEncargado[index].apellido,listaEncargado[index].rut]))
+
     pregunta4 = input('Desea ingresar una nueva mascota?:[S/n]:')
 
 #***************************buscar mascota por numero***************************
@@ -173,7 +184,6 @@ if pregunta6.upper() == 'S':
         x.mostrarDatos()
         print('*****************************************')
 
-
 #***************************Buscar ficha***************************
 pregunta5 = input('Desea buscar una ficha?[S/n]: ')
 
@@ -184,4 +194,3 @@ if pregunta5.upper() == 'S':
     for x in listaFicha:
         if x.folio == numeroFicha:
             x.mostrarDatos()
-
