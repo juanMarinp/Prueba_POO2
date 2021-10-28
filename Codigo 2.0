@@ -31,8 +31,7 @@ class Mascota:
         self.encargado = encargado
     def mostrarDatos(self):
         print('INFORMACION MASCOTA:')
-        print('nombre:',self.nombre,'| Codigo:',self.codigoMascota,'| Raza:',self.raza)
-        self.encargado.mostrarDatos()
+        print('nombre:',self.nombre,'| Codigo:',self.codigoMascota,'| Raza:',self.raza,'| Encargado:',self.encargado)
         return
 class Ficha:
     def __init__(self,folio,mascota,medico,fecha,diagnostico):
@@ -44,9 +43,7 @@ class Ficha:
         return
     def mostrarDatos(self):
         print('INFORMACION FICHA:')
-        print('Folio Nº:',self.folio,'| Fecha: ',self.fecha,'| Diagnostico: ',self.diagnostico)
-        self.mascota.mostrarDatos()
-        self.medico.mostrarDatos()
+        print('Folio Nº:',self.folio,'| Fecha: ',self.fecha,'| Diagnostico: ',self.diagnostico,'| Mascota:',self.mascota,'| Medico:',self.medico)
         return
 listaMedico = [
 Medico('Jesus','rojas','1-1',22,5001,'General'),
@@ -57,14 +54,34 @@ Encargado('sebastian','Pizarro','1-3',36,5003),
 Encargado('Jose','dinamarca','1-4',25,5004)
 ]
 listaMascota = [
-Mascota('Cachupin',500,'Perro','Pastor Aleman',listaEncargado[0]),
-Mascota('lula',501,'Gato','Burmes',listaEncargado[1])
+Mascota('Cachupin',500,'Perro','Pastor Aleman',listaEncargado[0].rut),
+Mascota('lula',501,'Gato','Burmes',listaEncargado[1].rut),
 ]
 listaFicha = [
-Ficha(100,listaMascota[0],listaMedico[0],'20/05/2021','fiebre'),
-Ficha(101,listaMascota[1],listaMedico[1],'07/10/2021','estirilizacion')
+Ficha(100,listaMascota[0].codigoMascota,listaMedico[0].codigo_medico,'20/05/2021','fiebre'),
+Ficha(101,listaMascota[1].codigoMascota,listaMedico[1].codigo_medico,'07/10/2021','estirilizacion')
 ]
 
+#***************************Agregar cliente***************************
+
+pregunta3 = input('Desea ingresar un nuevo cliente?[S/n]: ')
+
+while pregunta3.upper() == 'S':
+    codigo_encargado = int(input('Ingrese codigo: '))
+    for x in listaEncargado:
+        while x.codigo_cliente == codigo_encargado:
+            print('...Codigo ya existe, ingrese otro...')
+            codigo_encargado = int(input('Ingrese codigo: '))
+    nombre_encargado = input('Inngrese nombre: ')
+    apellido_encargado = input('Ingrese apellido: ')
+    rut_encargado = input('Ingrese rut: ')
+    for x in listaEncargado:
+        while x.rut == rut_encargado:
+            print('...Rut ya existe...')
+            rut_encargado = input('Ingrese rut: ')
+    edad_encargado = int(input('Ingrese edad: '))
+    listaEncargado.append(Encargado(nombre_encargado,apellido_encargado,rut_encargado,edad_encargado,codigo_encargado))
+    pregunta3 = input('Desea ingresar un nuevo cliente?[S/n]: ')
 
 
 #***************************Agregar mascota***************************
@@ -92,29 +109,6 @@ while pregunta4.upper() == 'S':
     listaMascota.append(Mascota(nombre_mascota,codigo_mascota,especie_mascota,raza_mascota,encargado_mascota))
     pregunta4 = input('Desea ingresar una nueva mascota?:[S/n]:')
 
-
-#***************************Agregar cliente***************************
-
-pregunta3 = input('Desea ingresar un nuevo cliente?[S/n]: ')
-
-while pregunta3.upper() == 'S':
-    codigo_encargado = int(input('Ingrese codigo: '))
-    for x in listaEncargado:
-        while x.codigo_cliente == codigo_encargado:
-            print('...Codigo ya existe, ingrese otro...')
-            codigo_encargado = int(input('Ingrese codigo: '))
-    nombre_encargado = input('Inngrese nombre: ')
-    apellido_encargado = input('Ingrese apellido: ')
-    rut_encargado = input('Ingrese rut: ')
-    for x in listaEncargado:
-        while x.rut == rut_encargado:
-            print('...Rut ya existe...')
-            rut_encargado = input('Ingrese rut: ')
-    edad_encargado = int(input('Ingrese edad: '))
-    listaEncargado.append(Encargado(nombre_encargado,apellido_encargado,rut_encargado,edad_encargado,codigo_encargado))
-    pregunta3 = input('Desea ingresar un nuevo cliente?[S/n]: ')
-
-
 #***************************buscar mascota por numero***************************
 pregunta = input("Desea buscar una mascota?[S/n]:")
 
@@ -133,29 +127,6 @@ if pregunta2.upper() == 'S':
 
     for x in listaMedico:
         x.mostrarDatos()
-
-
-#***************************Buscar ficha***************************
-pregunta5 = input('Desea buscar una ficha?[S/n]: ')
-
-if pregunta5.upper() == 'S':
-
-    numeroFicha = int(input('Ingrese el numero de la ficha: '))
-
-    for x in listaFicha:
-        if x.folio == numeroFicha:
-            x.mostrarDatos()
-
-#***************************Mostrar todas las fichas***************************
-
-pregunta6 = input('Desea ver todas las fichas existentes?[S/n]: ')
-
-if pregunta6.upper() == 'S':
-
-    for x in listaFicha:
-        x.mostrarDatos()
-        print('*****************************************')
-
 #***************************Crear ficha medica***************************
 
 pregunta7 = input('Desea crear una ficha medica?[S/n]: ')
@@ -191,3 +162,26 @@ while pregunta7.upper() == 'S':
     listaFicha.append(Ficha(numero_folio,mascota_folio,medico_folio,fecha_folio,diagnostico_folio))
 
     pregunta7 = input('Desea crear una ficha medica?[S/n]: ')
+
+#***************************Mostrar todas las fichas***************************
+
+pregunta6 = input('Desea ver todas las fichas existentes?[S/n]: ')
+
+if pregunta6.upper() == 'S':
+
+    for x in listaFicha:
+        x.mostrarDatos()
+        print('*****************************************')
+
+
+#***************************Buscar ficha***************************
+pregunta5 = input('Desea buscar una ficha?[S/n]: ')
+
+if pregunta5.upper() == 'S':
+
+    numeroFicha = int(input('Ingrese el numero de la ficha: '))
+
+    for x in listaFicha:
+        if x.folio == numeroFicha:
+            x.mostrarDatos()
+
